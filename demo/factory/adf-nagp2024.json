@@ -1,0 +1,9 @@
+{
+	"name": "adf-nagp2024",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "df50b983-f26d-41f9-af1e-452ca104592f",
+		"tenantId": "a45fe71a-f480-4e42-ad5e-aff33165aa35"
+	}
+}

@@ -1,0 +1,83 @@
+{
+	"name": "ProductDataBaseToBronze",
+	"properties": {
+		"folder": {
+			"name": "Demo"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "ADLNAGP2024",
+						"type": "LinkedServiceReference"
+					},
+					"name": "ProductDatabaseRaw",
+					"description": "Product Database Raw"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "ADLNAGP2024",
+						"type": "LinkedServiceReference"
+					},
+					"name": "ProductDatabaseBronze"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddLoadDate"
+				},
+				{
+					"name": "RenameColumn"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Order ID} as string,",
+				"          Product as string,",
+				"          {Quantity Ordered} as string,",
+				"          {Price Each} as string,",
+				"          {Order Date} as string,",
+				"          {Purchase Address} as string",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     rowUrlColumn: 'FileName',",
+				"     format: 'delimited',",
+				"     fileSystem: 'demo',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     wildcardPaths:['raw/Product Database/']) ~> ProductDatabaseRaw",
+				"ProductDatabaseRaw derive(LoadDate = currentDate()) ~> AddLoadDate",
+				"AddLoadDate select(mapColumn(",
+				"          OrderID = {Order ID},",
+				"          Product,",
+				"          QuantityOrdered = {Quantity Ordered},",
+				"          PriceEach = {Price Each},",
+				"          OrderDate = {Order Date},",
+				"          PurchaseAddress = {Purchase Address},",
+				"          FileName,",
+				"          LoadDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenameColumn",
+				"RenameColumn sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'demo',",
+				"     folderPath: 'bronze/ProductDatabase',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ProductDatabaseBronze"
+			]
+		}
+	}
+}

@@ -1,0 +1,37 @@
+{
+	"name": "csvinput",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLNAGP2024",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"name": {
+				"type": "String",
+				"defaultValue": "bank.csv"
+			}
+		},
+		"folder": {
+			"name": "datalake"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().name",
+					"type": "Expression"
+				},
+				"folderPath": "input",
+				"fileSystem": "datalake"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

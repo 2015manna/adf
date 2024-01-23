@@ -1,0 +1,94 @@
+{
+	"name": "testpipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy CSV file from Input folder",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": {
+								"value": "@pipeline().parameters.outputfile",
+								"type": "Expression"
+							}
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "csvinput",
+						"type": "DatasetReference",
+						"parameters": {
+							"name": {
+								"value": "@pipeline().parameters.filename",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "csvoutput",
+						"type": "DatasetReference",
+						"parameters": {
+							"outputfile": "test.csv"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"filename": {
+				"type": "String",
+				"defaultValue": "bank.csv"
+			},
+			"outputfile": {
+				"type": "String",
+				"defaultValue": "test"
+			}
+		},
+		"folder": {
+			"name": "Test"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-01-23T16:24:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
