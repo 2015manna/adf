@@ -91,7 +91,7 @@
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     fileSystem: 'demo',",
-				"     folderPath: 'silver',",
+				"     folderPath: 'silver/ProductDatabase',",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
