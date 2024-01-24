@@ -15,7 +15,15 @@
 					"name": "SourceBronze"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "ADLNAGP2024",
+						"type": "LinkedServiceReference"
+					},
+					"name": "SinkToSilver"
+				}
+			],
 			"transformations": [
 				{
 					"name": "ChangeDataType"
@@ -78,7 +86,17 @@
 				"          LoadDate",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelectFinalColumn"
+				"     skipDuplicateMapOutputs: true) ~> SelectFinalColumn",
+				"SelectFinalColumn sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'demo',",
+				"     folderPath: 'silver',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SinkToSilver"
 			]
 		}
 	}
