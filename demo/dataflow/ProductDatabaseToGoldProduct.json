@@ -61,7 +61,7 @@
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     fileSystem: 'demo',",
-				"     folderPath: 'gold/ProductDatabase',",
+				"     folderPath: 'gold/ProductDatabase/Product',",
 				"     partitionFileNames:['Product.parquet'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
