@@ -1,0 +1,35 @@
+{
+	"name": "ProductDatabaseToGoldSalesOrderFact",
+	"properties": {
+		"folder": {
+			"name": "Demo"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "ADLNAGP2024",
+						"type": "LinkedServiceReference"
+					},
+					"name": "SourceSilver"
+				},
+				{
+					"name": "SinkFileSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'demo',",
+				"     wildcardPaths:['silver/ProductDatabase']) ~> SourceSilver",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> SinkFileSource"
+			]
+		}
+	}
+}
