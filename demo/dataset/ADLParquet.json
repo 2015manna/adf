@@ -1,0 +1,54 @@
+{
+	"name": "ADLParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLNAGP2024",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "*.parquet",
+				"folderPath": "bronze/ProductDatabase",
+				"fileSystem": "demo"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "OrderID",
+				"type": "UTF8"
+			},
+			{
+				"name": "Product",
+				"type": "UTF8"
+			},
+			{
+				"name": "QuantityOrdered",
+				"type": "UTF8"
+			},
+			{
+				"name": "PriceEach",
+				"type": "UTF8"
+			},
+			{
+				"name": "OrderDate",
+				"type": "UTF8"
+			},
+			{
+				"name": "PurchaseAddress",
+				"type": "UTF8"
+			},
+			{
+				"name": "FileName",
+				"type": "UTF8"
+			},
+			{
+				"name": "LoadDate",
+				"type": "DATE"
+			}
+		]
+	}
+}

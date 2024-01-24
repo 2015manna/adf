@@ -1,0 +1,81 @@
+{
+	"name": "SqlProductDatabaseToSilver",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy To Sql",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": false,
+							"wildcardFolderPath": "bronze/ProductDatabase",
+							"wildcardFileName": "*.parquet",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "drop table if exists Stage.SalesOrderTemp\ncreate table Stage.SalesOrderTemp\n(\nOrderID varchar(max),\nProduct varchar(max),\nQuantityOrdered varchar(max),\nOrderDate varchar(max),\nPurchaseAddress varchar(max),\nFileName varchar(max),\nLoadDate varchar(max)\n)",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ADLParquet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureSqlTable",
+						"type": "DatasetReference",
+						"parameters": {
+							"Schema": "Stage",
+							"TableName": "SalesOrderTemp"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"directory": {
+				"type": "String",
+				"defaultValue": "raw"
+			},
+			"rawFileName": {
+				"type": "String",
+				"defaultValue": "abc.csv"
+			}
+		},
+		"folder": {
+			"name": "DemoSql"
+		},
+		"annotations": []
+	}
+}
