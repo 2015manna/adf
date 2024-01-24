@@ -1,0 +1,85 @@
+{
+	"name": "ProductDatabaseToSilver",
+	"properties": {
+		"folder": {
+			"name": "Demo"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "ADLNAGP2024",
+						"type": "LinkedServiceReference"
+					},
+					"name": "SourceBronze"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "ChangeDataType"
+				},
+				{
+					"name": "FilterOrderID"
+				},
+				{
+					"name": "RemoveDuplicates"
+				},
+				{
+					"name": "AddAddressParts"
+				},
+				{
+					"name": "SelectFinalColumn"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          OrderID as string,",
+				"          Product as string,",
+				"          QuantityOrdered as string,",
+				"          PriceEach as string,",
+				"          OrderDate as string,",
+				"          PurchaseAddress as string,",
+				"          FileName as string,",
+				"          LoadDate as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'demo',",
+				"     wildcardPaths:['bronze/ProductDatabase/']) ~> SourceBronze",
+				"RemoveDuplicates cast(output(",
+				"          OrderID as integer,",
+				"          QuantityOrdered as integer,",
+				"          PriceEach as double,",
+				"          OrderDate as date 'MM/dd/yy HH:mm'",
+				"     ),",
+				"     errors: true) ~> ChangeDataType",
+				"SourceBronze filter(isInteger(OrderID)) ~> FilterOrderID",
+				"FilterOrderID aggregate(groupBy(mycols = sha2(256,columns())),",
+				"     each(match(true()), $$ = first($$))) ~> RemoveDuplicates",
+				"ChangeDataType derive(PurchaseStreet = trim(at(split(PurchaseAddress, ','),1)),",
+				"          PurchaseCity = trim(at(split(PurchaseAddress, ','),2)),",
+				"          State = trim(at(split(trim(at(split(PurchaseAddress, ','),3)),' '),1)),",
+				"          ZIPCode = trim(at(split(trim(at(split(PurchaseAddress, ','),3)),' '),2))) ~> AddAddressParts",
+				"AddAddressParts select(mapColumn(",
+				"          OrderID,",
+				"          Product,",
+				"          QuantityOrdered,",
+				"          PriceEach,",
+				"          OrderDate,",
+				"          LoadDate,",
+				"          PurchaseStreet,",
+				"          PurchaseCity,",
+				"          State,",
+				"          ZIPCode,",
+				"          FileName",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectFinalColumn"
+			]
+		}
+	}
+}
