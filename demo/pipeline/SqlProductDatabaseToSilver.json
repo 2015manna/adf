@@ -30,7 +30,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "drop table if exists Stage.SalesOrderTemp\ncreate table Stage.SalesOrderTemp\n(\nOrderID varchar(max),\nProduct varchar(max),\nQuantityOrdered varchar(max),\nOrderDate varchar(max),\nPurchaseAddress varchar(max),\nFileName varchar(max),\nLoadDate varchar(max)\n)",
+						"preCopyScript": "drop table if exists Stage.SalesOrderTemp\ncreate table Stage.SalesOrderTemp\n(\nOrderID varchar(max),\nProduct varchar(max),\nQuantityOrdered varchar(max),\nOrderDate varchar(max),\nPurchaseAddress varchar(max),\nPriceEach varchar(max),\nFileName varchar(max),\nLoadDate varchar(max)\n)",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": true,
 						"disableMetricsCollection": false
