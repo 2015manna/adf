@@ -1,0 +1,12 @@
+{
+	"name": "AzureSqlDatabase",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=sqlservernagp2024.database.windows.net;initial catalog=datawarehouse;user id=nagpadmin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEYzQjkxQzc4LUY1NUMtNDBGMy04MkIzLUZEODUxNkYwNUE4MF81NjExNGIxNS1hZjc5LTRmMjMtYTU1OC00OTg0ODJlNjYwZjQiDQp9"
+		}
+	}
+}
