@@ -1,0 +1,26 @@
+{
+	"name": "ADLDelimitedTextFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLNAGP2024",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "bigdatatestingdemo"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "raw/Product Database",
+				"fileSystem": "demo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
