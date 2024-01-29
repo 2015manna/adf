@@ -1,0 +1,66 @@
+{
+	"name": "AzureSqlTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"SchemaName": {
+				"type": "String"
+			},
+			"TableName": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "bigdatatestingdemo"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OrderID",
+				"type": "varchar"
+			},
+			{
+				"name": "Product",
+				"type": "varchar"
+			},
+			{
+				"name": "QuantityOrdered",
+				"type": "varchar"
+			},
+			{
+				"name": "OrderDate",
+				"type": "varchar"
+			},
+			{
+				"name": "PurchaseAddress",
+				"type": "varchar"
+			},
+			{
+				"name": "PriceEach",
+				"type": "varchar"
+			},
+			{
+				"name": "FileName",
+				"type": "varchar"
+			},
+			{
+				"name": "LoadDate",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().SchemaName",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().TableName",
+				"type": "Expression"
+			}
+		}
+	}
+}
