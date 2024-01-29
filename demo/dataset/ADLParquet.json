@@ -1,0 +1,30 @@
+{
+	"name": "ADLParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLNAGP2024",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FolderPath": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "bigdatatestingdemo"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": {
+					"value": "@dataset().FolderPath",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
