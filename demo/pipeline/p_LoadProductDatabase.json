@@ -1,0 +1,73 @@
+{
+	"name": "p_LoadProductDatabase",
+	"properties": {
+		"activities": [
+			{
+				"name": "P_RawToBronze",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "P_RawToBronze",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "p_BronzeToSilver",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "P_RawToBronze",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "p_BronzeToSilver",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "p_SilverToGold",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "p_BronzeToSilver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "p_SilverToGold",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "bigdatatestingdemo"
+		},
+		"annotations": []
+	}
+}
