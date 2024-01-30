@@ -1,0 +1,26 @@
+{
+	"name": "rawstoragefilechange",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "p_LoadProductDatabase",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/demo/blobs/raw/Product Database/",
+			"blobPathEndsWith": ".csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/1647a0e2-3fad-4974-b9ac-23020a7a1ac5/resourceGroups/RG-BigDataTesting2024/providers/Microsoft.Storage/storageAccounts/storageaccountnagp2024",
+			"events": [
+				"Microsoft.Storage.BlobCreated",
+				"Microsoft.Storage.BlobDeleted"
+			]
+		}
+	}
+}
